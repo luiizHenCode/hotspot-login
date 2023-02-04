@@ -418,26 +418,15 @@
 
             validForm() {
 
-                //valid if formValid array has 3 true values
-
                 if(this.elements.formValid.filter((item) => item === true).length === 3){
-
                     this.elements.button.disabled = false;
-
                 }else{
-
                     this.elements.button.disabled = true;
-
                 }
-
-
-
 
              },
 
             validInputs(){
-
-
 
                 this.elements.name.addEventListener('input', (e) => {
 
