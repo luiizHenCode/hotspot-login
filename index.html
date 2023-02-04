@@ -1,186 +1,650 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-BR" translate="false">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/maska@2/dist/maska.umd.js"></script>
+    <script src="https://unpkg.com/imask"></script>
     <title>Hotspot - Login</title>
 
-
     <style>
-        .center {
+
+        * {
+
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            background-color: #f5f5f5;
+            font-family: "Roboto", sans-serif;
+            background-image: linear-gradient(#0c2031, #171923);
+        }
+
+        main {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: linear-gradient(#0c2031, #171923);
         }
 
-        .box {
+        .container {
             width: 100%;
-            max-width: 500px;
-            padding: 20px;
+            max-width: 460px;
         }
 
-        .text-center {
-            display: block;
+
+
+        /* Login */
+
+        .login {
+            border-radius: 5px;
+            padding: 2rem;
+        }
+
+        .login__header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            row-gap: 16px;
             text-align: center;
         }
 
-        .logo-wifi {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 16px;
-
+        .login__title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
+
+        .login__subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #bbc6ce;
+        }
+
+        .login__body {
+            margin-top: 30px;
+        }
+
+
+
+        /* Login Form */
+
+        .login__form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login__form__group {
+            margin-bottom: 1.5rem;
+        }
+
+        .login__form__group div {
+            position: relative;
+        }
+
+        .login__form__group div svg {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+           
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .login__form__group small {
+            display: none;
+            font-size: 0.8rem;
+            color: #bbc6ce;
+            opacity: 0.7;
+            margin-top: 0.4rem;
+        }
+
+        .login__form__label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #bbc6ce;
+        }
+        
+
+
+
+        /* Login Form Input */
+
+        .login__form__input {
+            width: 100%;
+            height: 3.5rem;
+            padding: 10px;
+            border: 1px solid #374956;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #ffffff;
+            background-color: #11191f;
+            transition: all 0.3s ease;
+        }
+
+        .login__form__input:focus {
+            outline: none;
+            border-color: hsl(195deg, 85%, 41%);
+            box-shadow: 0 0 0 3px rgba(16, 149, 193, 0.2);
+        }
+
+        .isValid input {
+            border-color: rgb(18, 175, 18);
+            box-shadow: none;
+        }
+
+        .isValid input:focus {
+            border-color: rgb(18, 175, 18) !important;
+            box-shadow: 0 0 0 3px rgba(18, 175, 18, 0.2) !important;
+        }
+
+        .isValid svg.svgValid {
+            opacity: 1 !important;
+            color: rgb(18, 175, 18);
+        }
+
+        .isInvalid input {
+            border-color: rgb(255, 0, 0);
+            box-shadow: none;
+        }
+
+        .isInvalid input:focus {
+            border-color: rgb(255, 0, 0) !important;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.2) !important;
+        }
+
+        .isInvalid svg.svgInvalid {
+            opacity: 1 !important;
+            color: rgb(255, 0, 0);
+        }
+
+        .isInvalid ~ small {
+            display: block;
+        }
+
+
+
+        /* Login Form Button */
+
+        .login__form__button {
+            width: 100%;
+            height: 3rem;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #fff;
+            background-color: hsl(195deg, 85%, 41%);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .login__form__button:hover {
+            background-color: rgb(20, 157, 202);
+            box-shadow: 0 0 0 3px rgba(16, 149, 193, 0.3);
+        }
+
+        .login__form__button:active {
+            background-color: rgb(20, 157, 202);
+            transform: scale(0.98);
+        }
+
+        .login__form__button:disabled {
+            background-color: #374956;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: scale(1);
+        }
+
+
+        .devFor {
+            margin-top: -0.8rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #bbc6ce;
+        }
+
+        .devFor a {
+            color: #087ed3;
+            text-decoration: none;
+        }
+
+        .devFor a:hover {
+            text-decoration: underline;
+        }
+
+        .devFor a:active {
+            color: #076fba;
+        }
+        
+
+        .devFor a:visited {
+            color: #087ed3;
+        }
+
+
+
+
+
+
     </style>
-
-
-
-
 </head>
-
 <body>
 
-    <main id="app" class="container-fluid center">
-        <div class="box">
 
-            <div class="logo-wifi">
-                <svg width="201" height="127" viewBox="0 0 201 127" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M91.9232 0.642944C71.7361 0.642944 53.7555 10.1358 42.1985 24.8968H31.3768C14.3963 24.8968 0.578888 38.7054 0.578888 55.6859V74.2511C0.578888 91.2317 14.3963 105.049 31.3768 105.049H44.1829C55.7598 118.423 72.8589 126.886 91.9232 126.886C110.988 126.886 128.087 118.423 139.664 105.049H151.993C168.98 105.049 182.8 91.2316 182.8 74.2511V55.6859C182.8 38.7054 168.98 24.8968 151.993 24.8968H141.648C130.091 10.1358 112.11 0.642944 91.9232 0.642944Z"
-                        fill="black" />
-                    <path
-                        d="M95.8932 74.2494V55.6899C95.8932 41.9792 107.051 30.8211 120.762 30.8211H151.993C165.703 30.8211 176.868 41.9792 176.868 55.6899V74.2494C176.868 87.9601 165.703 99.1182 151.993 99.1182C151.993 99.1182 106.11 99.1182 83.2285 99.1182C90.8997 93.5128 95.8932 84.4535 95.8932 74.2494Z"
-                        fill="white" />
-                    <path
-                        d="M55.3004 83.8811H45.0503L43.2147 75.1771C41.9055 68.9993 40.7015 61.4926 40.4713 58.5781C40.2344 61.4926 39.0371 68.9993 37.7278 75.1771L35.8857 83.8811H25.754L16.1946 43.795H27.6421L28.7277 50.499C29.6488 56.1702 30.7409 63.1571 31.1356 67.9072C31.5961 63.2098 32.8527 56.2754 34.1159 50.5451L35.4844 43.795H45.6819L47.0569 50.5451C48.3135 56.2754 49.5701 63.2098 50.0372 67.9072C50.4319 63.1571 51.5241 56.1702 52.4386 50.499L53.5241 43.795H64.8664L55.3004 83.8811Z"
-                        fill="white" />
-                    <path
-                        d="M74.9126 51.6438C71.5309 51.6438 69.0112 49.6898 69.0112 46.5516C69.0112 43.6239 71.5309 41.5647 74.9126 41.5647C78.4587 41.5647 80.9193 43.6239 80.9193 46.5516C80.9193 49.6898 78.4587 51.6438 74.9126 51.6438ZM69.7546 83.8811V54.7622H80.064V83.8811H69.7546Z"
-                        fill="white" />
-                    <path
-                        d="M120.94 53.2425V62.2032H142.269V71.6046H120.94V83.8811H109.887V43.795H144.539V53.2425H120.94Z"
-                        fill="black" />
-                    <path
-                        d="M156.111 51.6438C152.736 51.6438 150.21 49.6898 150.21 46.5516C150.21 43.6239 152.736 41.5647 156.111 41.5647C159.657 41.5647 162.118 43.6239 162.118 46.5516C162.118 49.6898 159.657 51.6438 156.111 51.6438ZM150.96 83.8811V54.7622H161.263V83.8811H150.96Z"
-                        fill="black" />
-                    <path d="M187.098 36.2686V29.2158H184.592V27.775H191.316V29.2158H188.802V36.2686H187.098Z"
-                        fill="#231F20" />
-                    <path
-                        d="M192.401 36.2686V27.775H194.98L196.5 33.5712L198 27.775H200.579V36.2686H199L198.987 29.5843L197.322 36.2686H195.664L193.993 29.5843L193.98 36.2686H192.401Z"
-                        fill="#231F20" />
-                </svg>
 
+    <main>
+
+        <div class="container">
+
+            <div class="login">
+
+                <div class="login__header">
+
+                    <svg width="201" height="127" viewBox="0 0 201 127" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M91.9232 0.642944C71.7361 0.642944 53.7555 10.1358 42.1985 24.8968H31.3768C14.3963 24.8968 0.578888 38.7054 0.578888 55.6859V74.2511C0.578888 91.2317 14.3963 105.049 31.3768 105.049H44.1829C55.7598 118.423 72.8589 126.886 91.9232 126.886C110.988 126.886 128.087 118.423 139.664 105.049H151.993C168.98 105.049 182.8 91.2316 182.8 74.2511V55.6859C182.8 38.7054 168.98 24.8968 151.993 24.8968H141.648C130.091 10.1358 112.11 0.642944 91.9232 0.642944Z"
+                            fill="black" />
+                        <path
+                            d="M95.8932 74.2494V55.6899C95.8932 41.9792 107.051 30.8211 120.762 30.8211H151.993C165.703 30.8211 176.868 41.9792 176.868 55.6899V74.2494C176.868 87.9601 165.703 99.1182 151.993 99.1182C151.993 99.1182 106.11 99.1182 83.2285 99.1182C90.8997 93.5128 95.8932 84.4535 95.8932 74.2494Z"
+                            fill="white" />
+                        <path
+                            d="M55.3004 83.8811H45.0503L43.2147 75.1771C41.9055 68.9993 40.7015 61.4926 40.4713 58.5781C40.2344 61.4926 39.0371 68.9993 37.7278 75.1771L35.8857 83.8811H25.754L16.1946 43.795H27.6421L28.7277 50.499C29.6488 56.1702 30.7409 63.1571 31.1356 67.9072C31.5961 63.2098 32.8527 56.2754 34.1159 50.5451L35.4844 43.795H45.6819L47.0569 50.5451C48.3135 56.2754 49.5701 63.2098 50.0372 67.9072C50.4319 63.1571 51.5241 56.1702 52.4386 50.499L53.5241 43.795H64.8664L55.3004 83.8811Z"
+                            fill="white" />
+                        <path
+                            d="M74.9126 51.6438C71.5309 51.6438 69.0112 49.6898 69.0112 46.5516C69.0112 43.6239 71.5309 41.5647 74.9126 41.5647C78.4587 41.5647 80.9193 43.6239 80.9193 46.5516C80.9193 49.6898 78.4587 51.6438 74.9126 51.6438ZM69.7546 83.8811V54.7622H80.064V83.8811H69.7546Z"
+                            fill="white" />
+                        <path
+                            d="M120.94 53.2425V62.2032H142.269V71.6046H120.94V83.8811H109.887V43.795H144.539V53.2425H120.94Z"
+                            fill="black" />
+                        <path
+                            d="M156.111 51.6438C152.736 51.6438 150.21 49.6898 150.21 46.5516C150.21 43.6239 152.736 41.5647 156.111 41.5647C159.657 41.5647 162.118 43.6239 162.118 46.5516C162.118 49.6898 159.657 51.6438 156.111 51.6438ZM150.96 83.8811V54.7622H161.263V83.8811H150.96Z"
+                            fill="black" />
+                        <path d="M187.098 36.2686V29.2158H184.592V27.775H191.316V29.2158H188.802V36.2686H187.098Z"
+                            fill="#ffffff" />
+                        <path
+                            d="M192.401 36.2686V27.775H194.98L196.5 33.5712L198 27.775H200.579V36.2686H199L198.987 29.5843L197.322 36.2686H195.664L193.993 29.5843L193.98 36.2686H192.401Z"
+                            fill="#ffffff" />
+                    </svg>
+
+
+                    <p class="login__subtitle">Preencha os dados para usar o <b>WI-FI</b> gratuitamente.</p>
+
+                </div>
+
+                <div class="login__body">
+
+                    <form id="form" class="login__form">
+
+                        <div class="login__form__group">
+
+                            <label for="name" class="login__form__label">Nome Completo</label>
+
+                            <div id="inputName">
+                                <input type="text" name="name" id="name" class="login__form__input" placeholder="Nome completo">
+                                              
+                                <svg class="svgValid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.2,104.2,0,0,0,128,24Zm49.5,85.8-58.6,56a8.1,8.1,0,0,1-5.6,2.2,7.7,7.7,0,0,1-5.5-2.2l-29.3-28a8,8,0,1,1,11-11.6l23.8,22.7,53.2-50.7a8,8,0,0,1,11,11.6Z"></path></svg>
+
+                                <svg class="svgInvalid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.2,104.2,0,0,0,128,24Zm-2,48a12,12,0,1,1-12,12A12,12,0,0,1,126,72Zm10,112h-8a8,8,0,0,1-8-8V128a8,8,0,0,1,0-16h8a8,8,0,0,1,8,8v48a8,8,0,0,1,0,16Z"></path></svg>
+                            </div>
+
+
+                        </div>
+
+                        <div class="login__form__group">
+
+                            <label for="celular" class="login__form__label">Celular</label>
+
+                            <div id="inputCel">
+                                <input type="text" name="celular" id="celular" class="login__form__input" 
+                                placeholder="(00) 0 0000-0000" data-mask="(__) _ ____-____" data-slots="_">
+
+                                <svg class="svgValid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.2,104.2,0,0,0,128,24Zm49.5,85.8-58.6,56a8.1,8.1,0,0,1-5.6,2.2,7.7,7.7,0,0,1-5.5-2.2l-29.3-28a8,8,0,1,1,11-11.6l23.8,22.7,53.2-50.7a8,8,0,0,1,11,11.6Z"></path></svg>
+
+                                <svg class="svgInvalid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.2,104.2,0,0,0,128,24Zm-2,48a12,12,0,1,1-12,12A12,12,0,0,1,126,72Zm10,112h-8a8,8,0,0,1-8-8V128a8,8,0,0,1,0-16h8a8,8,0,0,1,8,8v48a8,8,0,0,1,0,16Z"></path></svg>
+
+                            </div>
+                            <small>Numero de celular inválido.</small>
+
+                        </div>
+
+                        <div class="login__form__group">
+
+                            <label for="cpf" class="login__form__label">CPF</label>
+
+                            <div id="inputCpf">
+                                <input type="text" name="cpf" id="cpf" class="login__form__input" placeholder="000.000.000-00"
+                                data-mask="___.___.___-__" data-slots="_">
+
+                                <svg class="svgValid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.2,104.2,0,0,0,128,24Zm49.5,85.8-58.6,56a8.1,8.1,0,0,1-5.6,2.2,7.7,7.7,0,0,1-5.5-2.2l-29.3-28a8,8,0,1,1,11-11.6l23.8,22.7,53.2-50.7a8,8,0,0,1,11,11.6Z"></path></svg>
+
+                                <svg class="svgInvalid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.2,104.2,0,0,0,128,24Zm-2,48a12,12,0,1,1-12,12A12,12,0,0,1,126,72Zm10,112h-8a8,8,0,0,1-8-8V128a8,8,0,0,1,0-16h8a8,8,0,0,1,8,8v48a8,8,0,0,1,0,16Z"></path></svg>
+                            </div>
+
+                            <small>CPF inválido.</small>
+
+
+                        </div>
+
+                        <div class="login__form__group">
+
+                            <button type="submit" class="login__form__button" disabled>usar wi-fi</button>
+
+                        </div>
+                        <small class="devFor">
+                            Desenvolvido por <a href="https://openitgroup.com.br/" target="_blank">OpenIt Group</a>.
+                        </small>
+
+                    </form>
+
+                </div>
 
             </div>
 
-
-
-            <p class="text-center">Preencha os dados para usar o <b>WI-FI</b> gratuitamente.</p>
-
-            <form @submit.prevent="onSubmit">
-                <label>
-                    Nome completo
-                    <input type="text" placeholder="Nome completo" required v-model="name" :aria-invalid="nameInvalid">
-                </label>
-
-                <Label>
-                    Celular
-                    <input type="tel" placeholder="Telefone" :onblur="onBlurPhone" required v-model="phone" v-maska
-                        data-maska="+55 (##) # ####-####" :aria-invalid="phoneInvalid">
-
-                    <small v-if="phoneInvalid">Numero de celular inválido.</small>
-                </Label>
-
-                <label>
-                    CPF
-                    <input type="text" placeholder="CPF" v-maska data-maska="###.###.###-##" required v-model="cpf"
-                        :aria-invalid="cpfInvalid">
-                </label>
-                <button type="submit">
-                    <b>USAR WI-FI</b>
-                </button>
-
-            </form>
-            <small class="text-center">Desenvolvido por
-                <a href="https://openitgroup.com.br/" target="_blank">OpenIt Group</a>
-            </small>
-
-
-
         </div>
+
     </main>
 
 
+
     <script>
-        const { createApp } = Vue;
-        const { Mask, MaskInput, vMaska } = Maska
 
+        const hotspotLogin = {
 
+            elements: {
+                    
+                    form: document.getElementById('form'),
+    
+                    name: document.getElementById('name'),
+                    validInputName: document.getElementById('inputName'),
+    
+                    celular: document.getElementById('celular'),
+                    validInputCel: document.getElementById('inputCel'),
+    
+                    cpf: document.getElementById('cpf'),
+                    validInputCpf: document.getElementById('inputCpf'),
+    
+                    button: document.querySelector('.login__form__button'),
 
-        createApp({
-            data() {
-                return {
-                    name: "",
-                    phone: "",
-                    cpf: "",
-                    nameInvalid: null,
-                    phoneInvalid: null,
-                    cpfInvalid: null,
-                    theme: 'dark'
-                }
+                    formValid: [],
+    
+                },
+            
+            clearInputsOnInit() {
+                this.elements.name.value = '';
+                this.elements.celular.value = '';
+                this.elements.cpf.value = '';
             },
-            watch: {
-                name(value) {
 
-                    this.nameInvalid = value.length < 10
+            maskInputs(){ 
 
+                IMask(this.elements.celular, {mask: '(00) 0 0000-0000'});
 
-                },
-                phone(value) {
+                IMask(this.elements.cpf, {mask: '000.000.000-00'});
 
-                    this.phoneInvalid = value.length < 20
+               
+             },
 
+            vanillaMaskInput() {
+                for (const el of document.querySelectorAll("[data-mask][data-slots]")) {
+                    const pattern = el.getAttribute("data-mask"),
+                        slots = new Set(el.dataset.slots || "_"),
+                        prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                        first = [...pattern].findIndex(c => slots.has(c)),
+                        accept = new RegExp(el.dataset.accept || "\\d", "g"),
+                        clean = input => {
+                            input = input.match(accept) || [];
+                            return Array.from(pattern, c =>
+                                input[0] === c || slots.has(c) ? input.shift() || c : c
+                            );
+                        },
+                        format = () => {
+                            const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
+                                i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
+                                return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
+                            });
+                            el.value = clean(el.value).join``;
+                            el.setSelectionRange(i, j);
+                            back = false;
+                        };
+                    let back = false;
+                    el.addEventListener("keydown", (e) => back = e.key === "Backspace");
+                    el.addEventListener("input", format);
+                    // el.addEventListener("focus", format);
+                    el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+                }
+             },
 
+            validForm() {
 
-                    console.log(value)
-                },
-                cpf(value) {
+                //valid if formValid array has 3 true values
 
-                    this.cpfInvalid = value.length < 14
+                if(this.elements.formValid.filter((item) => item === true).length === 3){
 
+                    this.elements.button.disabled = false;
 
-                    console.log(value)
+                }else{
 
+                    this.elements.button.disabled = true;
 
                 }
-            },
-            methods: {
 
-                onToggleTheme() {
-                    this.theme = this.theme === 'dark' ? 'light' : 'dark'
-                },
 
-                onBlurPhone() {
-                    if (this.phone.length === 0) {
-                        this.phoneInvalid = null
-                        return
+
+                console.log(this.elements.formValid);
+
+             },
+
+            validInputs(){
+
+
+
+                this.elements.name.addEventListener('input', (e) => {
+
+                    
+                    const name = e.target.value;
+
+                    if(name.length < 3){                        
+                        
+                        this.elements.validInputName.classList.add('isInvalid');
+
+                        this.elements.validInputName.classList.remove('isValid');
+                        
+                        this.elements.formValid[0] = false;
+                        
+                    }else{
+
+                        this.elements.validInputName.classList.add('isValid');
+                        
+                        this.elements.validInputName.classList.remove('isInvalid');
+                        
+                        this.elements.formValid[0] = true;
+                        
+                        
                     }
-                    // this.phoneInvalid = true
-                },
-                onSubmit() {
-                    console.log(this.name, this.phone, this.cpf)
-                }
-            },
-            directives: { maska: vMaska }
-        }).mount('#app')
-    </script>
-</body>
+                    
+                    this.validForm();
+                });
 
+                this.elements.celular.addEventListener('input',async (e) => {
+
+                    
+                    const celular = e.target.value;
+
+                    const clearValue = celular.replace(/\D/g, '');
+
+                    console.log(clearValue);
+
+                    if(clearValue.length < 11){
+
+                        this.elements.validInputCel.classList.add('isInvalid');
+                        
+                        this.elements.validInputCel.classList.remove('isValid');
+                        
+                        this.elements.formValid[1] = false;
+                        
+                    }else{
+
+                        const data = new URLSearchParams();
+
+                        data.append('celular', `55${clearValue.substring(0,16)}`);
+
+                        const res = await fetch('https://app-openconnect.openitgroup.com.br/hotspot/zap.php', {
+                            method: 'POST',
+                            body: data
+                        })
+
+                        
+                        const result = await res.text();
+                        
+                        
+                        if(result === "null") {
+
+                            this.elements.validInputCel.classList.add('isValid');
+                        
+                            this.elements.validInputCel.classList.remove('isInvalid');
+
+                            this.elements.formValid[1] = true;
+
+                        } else {
+                        
+                            this.elements.validInputCel.classList.add('isInvalid');
+                        
+                            this.elements.validInputCel.classList.remove('isValid');
+                        
+                            this.elements.formValid[1] = false;
+                        }                        
+                    }
+                    
+                    this.validForm();
+                });
+
+                this.elements.cpf.addEventListener('input', async (e) => {
+
+                    
+                    const cpf = e.target.value;
+
+                    const clearCpf = cpf.replace(/\D/g, '');
+
+                    console.log(clearCpf);
+
+
+                    if(clearCpf.length < 11){
+
+                        this.elements.validInputCpf.classList.add('isInvalid');
+                        
+                        this.elements.validInputCpf.classList.remove('isValid');
+
+                        this.elements.formValid[2] = false;
+                        
+                    }else{
+
+                        const data = new URLSearchParams();
+
+                        data.append('cpf', clearCpf);
+
+                        const res = await fetch('https://app-openconnect.openitgroup.com.br/hotspot/cpf.php', {
+                            method: 'POST',
+                            body: data
+                        })
+
+                        const result = await res.text();
+
+                        if(result === "true") {
+
+                            this.elements.validInputCpf.classList.add('isValid');
+    
+                            this.elements.validInputCpf.classList.remove('isInvalid');
+                            
+                            this.elements.formValid[2] = true;
+                        } else {
+
+                            this.elements.validInputCpf.classList.add('isInvalid');
+                        
+                            this.elements.validInputCpf.classList.remove('isValid');
+
+                            this.elements.formValid[2] = false;
+
+                        }
+
+
+                    }
+                    
+                    this.validForm();
+                });             
+
+             },
+
+
+            submitForm(){
+
+                this.elements.form.addEventListener('submit', async (e) => {
+
+                    e.preventDefault();
+
+                    this.elements.button.innerHTML = 'Aguarde...';
+                    this.elements.button.disabled = true;
+
+                    const data = new URLSearchParams();
+
+                    data.append('nome', this.elements.name.value);
+                    data.append('whats', this.elements.celular.value);
+                    data.append('cpf', this.elements.cpf.value);
+
+                    
+                    const res = await fetch('https://app-openconnect.openitgroup.com.br/hotspot/newlogin.php', {
+                        method: 'POST',
+                        body: data
+                    });
+                    const content = await res.text();
+
+
+                    window.location.href = "https://wa.me"
+
+                });
+
+             },
+
+
+
+            start(){
+
+                console.log('start');
+
+                this.clearInputsOnInit();
+
+                this.validInputs();
+
+                // this.maskInputs();
+
+                this.vanillaMaskInput();
+
+                this.submitForm();
+
+               
+
+            },
+
+        }
+
+  
+        window.addEventListener('load', () => {
+
+            hotspotLogin.start();
+
+        });
+
+
+    </script>
+    
+</body>
 </html>
