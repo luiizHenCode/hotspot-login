@@ -385,15 +385,7 @@
                 this.elements.cpf.value = '';
             },
 
-            maskInputs(){ 
-
-                IMask(this.elements.celular, {mask: '(00) 0 0000-0000'});
-
-                IMask(this.elements.cpf, {mask: '000.000.000-00'});
-
-               
-             },
-
+          
             vanillaMaskInput() {
                 for (const el of document.querySelectorAll("[data-mask][data-slots]")) {
                     const pattern = el.getAttribute("data-mask"),
@@ -604,12 +596,11 @@
                     });
                     const content = await res.text();
 
-
-                    window.location.href = "https://wa.me"
+                    window.location.href = "https://wa.me";
 
                     setTimeout(() => {
                         window.location.reload();
-                    }, 2000);
+                    }, 1000);
 
 
                 });
@@ -619,20 +610,10 @@
 
 
             start(){
-
-
                 this.clearInputsOnInit();
-
                 this.validInputs();
-
-                // this.maskInputs();
-
                 this.vanillaMaskInput();
-
-                this.submitForm();
-
-               
-
+                this.submitForm();          
             },
 
         }
